@@ -1,0 +1,80 @@
+﻿<Window x:Class="Employee_Directory.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Employee_Directory"
+        mc:Ignorable="d"
+        Title="Employee Directory" Height="501" Width="394" Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:IndexConverter x:Key="IndexConverter"/>
+    </Window.Resources>
+    <Grid Margin="0,0,2,7">
+        <GroupBox Header="Employees" HorizontalAlignment="Left" Height="245" Margin="10,10,0,0" VerticalAlignment="Top" Width="366">
+            <Grid Margin="0,0,0,-13">
+                <ListView x:Name="EmployeeListView" Height="108" Margin="10,10,0,0" VerticalAlignment="Top" Width="333" HorizontalAlignment="Left">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                    <Setter Property="IsSelected" Value="True"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn 
+                                Header="#" 
+                                Width="20" 
+                                DisplayMemberBinding="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                         AncestorType={x:Type ListViewItem}}, 
+                                         Converter={StaticResource IndexConverter}}">
+
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="nameColumn" Header="Name" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox x:Name="EmployeeNameTextBox" Margin="6,-1,-6,-1" Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" LostFocus="EmployeeNameTextBox_LostFocus" KeyDown="EmployeeNameTextBox_KeyDown"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="job_TitleColumn" Header="Job Title" Width="170">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBox x:Name="EmployeeJobTitleTextBox" Margin="-6,-1" Text="{Binding JobTitle, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" KeyDown="EmployeeJobTitleTextBox_KeyDown" LostFocus="EmployeeJobTitleTextBox_LostFocus"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn x:Name="DeleteColumn" Header="" Width="40">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="DeleteButton" Content="X" Background="Red" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Width="17" Height="17" FontSize="10" Click="DeleteButton_Click" FontWeight="Bold"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button x:Name="NewEmployeeButton" Content="Add" HorizontalAlignment="Left" Margin="293,155,0,0" VerticalAlignment="Top" Width="50" Click="NewEmployeeButton_Click" Background="#FF21BA45" BorderBrush="#FF43913C" FontWeight="Bold" Foreground="White"/>
+                <GroupBox Header="New Employee" HorizontalAlignment="Left" Height="80" Margin="10,123,0,0" VerticalAlignment="Top" Width="278">
+                    <Grid Margin="0,10,-2,-13" HorizontalAlignment="Center" VerticalAlignment="Center" Height="60" Width="268">
+                        <Label Content="Name:" HorizontalAlignment="Left" Margin="4,-7,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                        <TextBox x:Name="NewEmployeeNameTextBox" HorizontalAlignment="Left" Height="18" Margin="66,1,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="201"/>
+                        <Label Content="Job Title:" HorizontalAlignment="Left" Margin="4,16,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
+                        <TextBox x:Name="NewEmployeeJobTitleTextBox" HorizontalAlignment="Left" Height="18" Margin="66,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="201"/>
+                    </Grid>
+
+                </GroupBox>
+                <Label Content="Note: All changes are reflected in the DB automatically." Margin="10,203,41,0"></Label>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Commands executed" HorizontalAlignment="Left" Height="193" Margin="10,260,0,0" VerticalAlignment="Top" Width="366">
+            <ListView x:Name="CommandsListView" HorizontalAlignment="Left" Height="160" Margin="10,10,0,0" VerticalAlignment="Top" Width="335" FontWeight="Bold"/>
+        </GroupBox>
+
+    </Grid>
+
+</Window>
